@@ -1,6 +1,6 @@
 using System;
 
-namespace DiplomaWork.Models
+namespace DiplomaWork1.Models
 {
     public class ErrorViewModel
     {

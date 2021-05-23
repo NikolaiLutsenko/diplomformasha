@@ -1,27 +1,43 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using DiplomaWork.Data
-@inject SignInManager<User> SignInManager
+@using DiplomaWork1.Data
+@using DiplomaWork1.Extensions
 @inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light">Hello @User.Identity.Name</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Меню
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @if (User.IsInRole(RoleConstants.Admin))
+                {
+                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Панель администратора</a>
+                }
+                @if (User.IsInRole(RoleConstants.TechnicalSpecialist))
+                {
+                    <a class="dropdown-item text-dark" asp-controller="Requests" asp-action="Index" asp-route-employeeId="@User.GetEmployeeId().ToString("N")">Мои заявки</a>
+                }
+                @if (User.IsInRole(RoleConstants.QualityControl))
+                {
+                    <a class="dropdown-item text-dark" asp-controller="QualityControl" asp-action="Index">Контроль качества</a>
+                }
+                <div class="dropdown-divider"></div>
+                <form class="dropdown-item form-inline" asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Выйти</button>
+                </form>
+                </div>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="Account" asp-action="Login">Login</a>
+                </li>
+            }
 </ul>

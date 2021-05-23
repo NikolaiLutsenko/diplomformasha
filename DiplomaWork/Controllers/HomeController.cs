@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DiplomaWork.Models;
+using DiplomaWork1.Models;
 
-namespace DiplomaWork.Controllers
+namespace DiplomaWork1.Controllers
 {
     public class HomeController : Controller
     {
@@ -18,8 +18,12 @@ namespace DiplomaWork.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] string message = null)
         {
+            if (!string.IsNullOrEmpty(message))
+            {
+                ViewBag.Message = message;
+            }
             return View();
         }
 
