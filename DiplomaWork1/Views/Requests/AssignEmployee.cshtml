@@ -1,0 +1,34 @@
+﻿@model DiplomaWork1.Models.Requests.AssignEmployeeModel
+
+@{
+    ViewData["Title"] = "Назначить исполнителя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1>Назначить исполнителя</h1>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="AssignEmployee" asp-controller="Requests" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="RequestId" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmployeeId" class="control-label"></label>
+                    <select asp-for="EmployeeId" asp-items="Model.Employees" class="custom-select">
+                        <option value="">Выберите исполнителя</option>
+                    </select>
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                    <a asp-action="Details" asp-route-id="@Model.RequestId.ToString("N")" class="btn btn-primary">Назад</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

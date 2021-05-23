@@ -1,0 +1,8 @@
+﻿@using DiplomaWork1.Models.Services
+@model IEnumerable<ServiceModel>
+
+<option value="">Выберите услугу</option>
+@foreach(var service in Model)
+{
+    <option id="@service.Id" value="@service.Id">@service.Name</option>
+}

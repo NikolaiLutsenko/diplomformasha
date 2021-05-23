@@ -1,0 +1,58 @@
+﻿@model DiplomaWork1.Models.Requests.SetStateModel
+@using DiplomaWork1.Models.Constants
+@{
+    ViewData["Title"] = "Добавить статус";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1>Добавить статус</h1>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="SetState" method="post">
+                <input asp-for="RequestId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="State" class="control-label"></label>
+                    <input asp-for="State" class="form-control" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                @if (User.IsInRole(RoleConstants.TechnicalSpecialist) && !Model.IsOnQuolityControl)
+                {
+                    <div class="form-group form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="ToQualityControl" /> <label asp-for="ToQualityControl"></label>
+                        </label>
+                    </div>
+                }
+                @if (User.IsInRole(RoleConstants.QualityControl) && Model.IsOnQuolityControl)
+                {
+                    <div class="form-group form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="ToTechnicalSpecialist" /> <label asp-for="ToTechnicalSpecialist"></label>
+                        </label>
+                    </div>
+                    <div class="form-group form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsCompleted" /> <label asp-for="IsCompleted"></label>
+                        </label>
+                    </div>
+                }
+                <div class="form-group">
+                    <input type="submit" value="Добавить" class="btn btn-primary" />
+                    <a asp-action="Details" asp-route-id="@Model.RequestId.ToString("N")" class="btn btn-primary">Назад</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

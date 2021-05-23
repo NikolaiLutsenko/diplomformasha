@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Not allowed";
+}
+
+@{
+    <div class="text-center">
+        <h1 class="display-4">Not allowed error</h1>
+        @if (!string.IsNullOrEmpty(ViewBag.NotAllowedMessage))
+        {
+            <p>@ViewBag.NotAllowedMessage</p>
+        }
+    </div>
+}

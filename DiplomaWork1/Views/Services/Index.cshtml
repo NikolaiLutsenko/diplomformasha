@@ -1,0 +1,48 @@
+﻿@using DiplomaWork1.Models.Services
+
+@model ServicesModel
+
+@{
+    ViewData["Title"] = "Категории";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1>Услуги</h1>
+
+    <p>
+        <a asp-action="Create" asp-route-categoryId="@Model.CategoryId">Добавить</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <label asp-for="Services.First().Category.Name"></label>
+                </th>
+                <th>
+                    <label asp-for="Services.First().Name"></label>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Services.Count(); i++)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @Model.Services[i].Category.Name
+                    </td>
+                    <td class="align-middle">
+                        @Model.Services[i].Name
+                    </td>
+                    <td>
+                        <form asp-action="Delete" method="post">
+                            <input asp-for="Services[i].Id" />
+                            <input asp-for="Services[i].CategoryId" />
+                            <a class="btn btn-link" asp-controller="Services" asp-action="Edit" asp-route-id="@Model.Services[i].Id">Изменить</a>|<button class="btn btn-link" type="submit">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

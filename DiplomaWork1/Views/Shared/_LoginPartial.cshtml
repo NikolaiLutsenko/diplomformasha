@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DiplomaWork1.Data
+@using DiplomaWork1.Extensions
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light">Hello @User.Identity.Name</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Меню
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @if (User.IsInRole(RoleConstants.Admin))
+                {
+                    <a class="dropdown-item text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Панель администратора</a>
+                }
+                @if (User.IsInRole(RoleConstants.TechnicalSpecialist))
+                {
+                    <a class="dropdown-item text-dark" asp-controller="Requests" asp-action="Index" asp-route-employeeId="@User.GetEmployeeId().ToString("N")">Мои заявки</a>
+                }
+                @if (User.IsInRole(RoleConstants.QualityControl))
+                {
+                    <a class="dropdown-item text-dark" asp-controller="QualityControl" asp-action="Index">Контроль качества</a>
+                }
+                <div class="dropdown-divider"></div>
+                <form class="dropdown-item form-inline" asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Выйти</button>
+                </form>
+                </div>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="Account" asp-action="Login">Login</a>
+                </li>
+            }
+</ul>

@@ -1,0 +1,15 @@
+﻿@using DiplomaWork1.Models.Requests
+@model ShowBadgeModel
+
+@if (Model.IsCompleted)
+{
+    <span class="badge badge-success">Выполнено</span>
+}
+else if (Model.IsWaitingQualityControl)
+{
+    <span class="badge badge-info">Проверка качества...</span>
+}
+else if (Model.IsReturned)
+{
+    <span class="badge badge-warning">На доработке...</span>
+}

@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Not found";
+}
+
+@{
+    <div class="text-center">
+        <h1 class="display-4">Not found error</h1>
+        @if (!string.IsNullOrEmpty(ViewBag.NotFoundMessage))
+        {
+            <p>@ViewBag.NotFoundMessage</p>
+        }
+    </div>
+}

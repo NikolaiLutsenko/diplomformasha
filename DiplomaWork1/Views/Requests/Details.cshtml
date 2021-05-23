@@ -1,0 +1,108 @@
+﻿@model DiplomaWork1.Models.Requests.DetailsModel
+@using DiplomaWork1.Extensions
+@using DiplomaWork1.Models.Constants
+@using Microsoft.AspNetCore.Identity
+@using DiplomaWork1.Data
+
+@{
+    ViewData["Title"] = "Заявка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isCurrentUserCanSetState = (User.IsInRole(RoleConstants.TechnicalSpecialist) && Model.EmployeeId == User.GetEmployeeId() && (Model.Badget.IsReturned || (!Model.Badget.IsCompleted && !Model.Badget.IsWaitingQualityControl)))
+        || (User.IsInRole(RoleConstants.QualityControl) && Model.Badget.IsWaitingQualityControl);
+}
+
+<form asp-action="AssignEmployee" class="inline" method="post">
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        @if (!Model.Badget.IsCompleted)
+        {
+            <div class="btn-group mr-3" role="group">
+                @if (User.IsInRole(RoleConstants.TechnicalSpecialist) && User.GetEmployeeId() == Model.EmployeeId)
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.RequestId.ToString("N")" class="btn btn-primary">Редактировать</a>
+                }
+                @if (isCurrentUserCanSetState)
+                {
+                    <a asp-action="SetState" asp-route-id="@Model.RequestId.ToString("N")" class="btn btn-primary">Статус</a>
+                }
+            </div>
+            <div class="btn-group mr-3" role="group">
+                @if (User.IsInRole(RoleConstants.Admin))
+                {
+                    <a asp-action="AssignEmployee" asp-route-requestId="@Model.RequestId.ToString("N")" class="btn btn-primary">Назначить сотрудника</a>
+                }
+                @if (Model.CanAssignToCurrentEmployee)
+                {
+                    <input asp-for="RequestId" />
+                    <input type="hidden" name="@nameof(Model.EmployeeId)" value="@User.GetEmployeeId().ToString("N")" />
+                    <input type="submit" value="Назначить себя" class="btn btn-primary">
+                }
+            </div>
+        }
+        <div class="btn-group mr-3" role="group">
+            @if (User.IsInRole(RoleConstants.Admin) || User.IsInRole(RoleConstants.QualityControl))
+            {
+                <a asp-action="Index" class="btn btn-primary">Заявки</a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-route-employeeId="@User.GetEmployeeId().ToString("N")" class="btn btn-primary">Заявки</a>
+            }
+        </div>
+    </div>
+</form>
+<hr />
+<div>
+    <h4>Заявка @{await Html.RenderPartialAsync("_ShowBadge", Model.Badget); }</h4>
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label asp-for="CreatedDate"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="EmployeeEmail"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeEmail)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="Description"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="ServiceName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceName)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="CategoryName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="UserEmail"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserEmail)
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="UserName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>История</h4>
+    <div class="row">
+        @{await Html.RenderPartialAsync("_RequestStates", Model.States); }
+    </div>
+</div>
+
+
