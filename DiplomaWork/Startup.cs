@@ -1,16 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DiplomaWork1.Data;
 using DiplomaWork1.Data.Models;
 using DiplomaWork1.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +13,6 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace DiplomaWork1
 {
-    // hi Masha
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
