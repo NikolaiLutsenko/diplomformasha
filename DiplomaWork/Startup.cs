@@ -19,6 +19,8 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace DiplomaWork1
 {
+    // hi Masha
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
