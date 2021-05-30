@@ -15,7 +15,6 @@ namespace DiplomaWork.Services
     {
         private readonly IHubContext<ServiceHub> _hubContext;
         private readonly DiplomaWorkContext _db;
-        private readonly UserManager<User> _userManager;
 
         #region Events
 
@@ -23,11 +22,10 @@ namespace DiplomaWork.Services
 
         #endregion
 
-        public RequestNotifier(IHubContext<ServiceHub> hubContext, DiplomaWorkContext db, UserManager<User> userManager)
+        public RequestNotifier(IHubContext<ServiceHub> hubContext, DiplomaWorkContext db)
         {
             _hubContext = hubContext;
             _db = db;
-            _userManager = userManager;
         }
 
         public async Task NotifyAsync(Guid requestId, RequestStateType state)
