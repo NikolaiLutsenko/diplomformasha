@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DiplomaWork.Data;
@@ -10,12 +9,10 @@ using DiplomaWork.Models.Category;
 using DiplomaWork.Models.Constants;
 using DiplomaWork.Models.Requests;
 using DiplomaWork.Models.Services;
-using DiplomaWork.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiplomaWork.Controllers
@@ -53,7 +50,7 @@ namespace DiplomaWork.Controllers
                 NotAssignedRequests = requests.Where(x => !x.CurrentEmployeeId.HasValue).ToArray()
             });
 
-            
+
         }
 
         [HttpGet]

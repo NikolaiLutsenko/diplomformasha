@@ -1,18 +1,29 @@
-﻿using DiplomaWork.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using DiplomaWork.Models.Constants;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading.Tasks;
 
 namespace DiplomaWork.SignalR
 {
     public class ServiceHub: Hub
     {
-        private readonly UserManager<User> _userManager;
-        private readonly DiplomaWorkContext _db;
-
-        public ServiceHub(DiplomaWorkContext db, UserManager<User> userManager)
+        public override async Task OnConnectedAsync()
         {
-            _userManager = userManager;
-            _db = db;
+            if (!string.IsNullOrEmpty(Context.UserIdentifier) && Context.User.IsInRole(RoleConstants.QualityControl))
+            {
+                await this.Groups.AddToGroupAsync(Context.ConnectionId, SignalRGroupConstants.QuolityControlGroup);
+            }
+
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            if (!string.IsNullOrEmpty(Context.UserIdentifier) && Context.User.IsInRole(RoleConstants.QualityControl))
+            {
+                await this.Groups.RemoveFromGroupAsync(Context.ConnectionId, SignalRGroupConstants.QuolityControlGroup);
+            }
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

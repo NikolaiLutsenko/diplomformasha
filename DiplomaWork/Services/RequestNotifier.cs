@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiplomaWork.Services
@@ -47,9 +46,7 @@ namespace DiplomaWork.Services
             }
             if (state == RequestStateType.WaitingQualityControl)
             {
-                var users = await _userManager.GetUsersInRoleAsync(RoleConstants.QualityControl);
-                var qualityControlUserIds = users.Select(x => x.Id.ToString()).ToList();
-                await _hubContext.Clients.Users(qualityControlUserIds).SendAsync(RequestStateChanged, requestId, $"Новая заявка для проверки контроля качества!");
+                await _hubContext.Clients.Group(SignalRGroupConstants.QuolityControlGroup).SendAsync(RequestStateChanged, requestId, $"Новая заявка для проверки контроля качества!");
             }
         }
     }

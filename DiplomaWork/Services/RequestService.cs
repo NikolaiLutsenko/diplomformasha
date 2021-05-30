@@ -2,8 +2,6 @@
 using DiplomaWork.Data.Models;
 using DiplomaWork.Interfaces;
 using DiplomaWork.Models.Requests;
-using DiplomaWork.SignalR;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
