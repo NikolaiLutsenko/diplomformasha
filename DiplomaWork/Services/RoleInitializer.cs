@@ -1,10 +1,10 @@
-﻿using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
+﻿using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 
-namespace DiplomaWork1.Services
+namespace DiplomaWork.Services
 {
     public static class RoleInitializer
     {

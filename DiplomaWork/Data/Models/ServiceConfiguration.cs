@@ -1,9 +1,9 @@
-﻿using DiplomaWork1.Data.Constants;
+﻿using DiplomaWork.Data.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace DiplomaWork1.Data.Models
+namespace DiplomaWork.Data.Models
 {
     public class ServiceConfiguration : IEntityTypeConfiguration<Service>
     {

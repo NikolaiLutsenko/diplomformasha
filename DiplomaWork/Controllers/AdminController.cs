@@ -1,13 +1,13 @@
-﻿using DiplomaWork1.Data;
-using DiplomaWork1.Interfaces;
-using DiplomaWork1.Models.Admin;
-using DiplomaWork1.Models.Constants;
+﻿using DiplomaWork.Data;
+using DiplomaWork.Interfaces;
+using DiplomaWork.Models.Admin;
+using DiplomaWork.Models.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [Authorize(Roles = RoleConstants.Admin)]
     public class AdminController : Controller

@@ -1,7 +1,7 @@
-﻿using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Models.Constants;
-using DiplomaWork1.Models.Roles;
+﻿using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Models.Constants;
+using DiplomaWork.Models.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [Authorize(Roles = RoleConstants.Admin + "," + RoleConstants.HrManager)]
     public class RolesController : Controller

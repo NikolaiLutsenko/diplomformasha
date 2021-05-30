@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using DiplomaWork1.Data
-@using DiplomaWork1.Models.Constants
+@using DiplomaWork.Data
+@using DiplomaWork.Models.Constants
 
 @inject UserManager<User> UserManager
 
@@ -48,6 +48,10 @@
                 </div>
             }
             @RenderBody()
+
+            <div class="row" style="z-index: 999; position: absolute; bottom: 80px; right: 30px; width:100%;">
+                <div id="notificationsdiv" class="col-6 offset-6" style="padding-top:5px"></div>
+            </div>
         </main>
     </div>
 
@@ -59,6 +63,26 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/servicehub")
+            .build();
+
+        hubConnection.on("RequestStateChanged", function (requestId, message) {
+            let url = '@Url.Action("Details", "Requests")';
+
+            document.getElementById("notificationsdiv").insertAdjacentHTML("afterbegin",
+                "<div class='alert alert-primary alert-dismissible fade show' role='alert'>" +
+                "<a href='" + url + "/" + requestId + "'>" + message + "</a>" +
+                    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>" +
+                        "<span aria-hidden='true'>&times;</span>" +
+                    "</button >" +
+                "</div >");
+        });
+
+        hubConnection.start();
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

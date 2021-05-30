@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace DiplomaWork1.Models.Services
+namespace DiplomaWork.Models.Services
 {
     public class ServicesModel
     {

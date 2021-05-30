@@ -1,12 +1,15 @@
-﻿namespace DiplomaWork1.Models.Requests
+﻿using DiplomaWork.Data.Models;
+
+namespace DiplomaWork.Models.Requests
 {
     public class ShowBadgeModel
     {
-        public ShowBadgeModel(bool isCompleted, bool isReturned, bool isWaitingQualityControl)
+
+        public ShowBadgeModel(RequestStateType requestStateType)
         {
-            IsCompleted = isCompleted;
-            IsReturned = isReturned;
-            IsWaitingQualityControl = isWaitingQualityControl;
+            IsCompleted = requestStateType == RequestStateType.Completed;
+            IsReturned = requestStateType == RequestStateType.Returned;
+            IsWaitingQualityControl = requestStateType == RequestStateType.WaitingQualityControl;
         }
 
         public bool IsCompleted { get; }

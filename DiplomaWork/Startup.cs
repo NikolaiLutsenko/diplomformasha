@@ -1,7 +1,8 @@
 using System;
-using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Services;
+using DiplomaWork.SignalR;
+using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-namespace DiplomaWork1
+namespace DiplomaWork
 {
     public class Startup
     {
@@ -47,6 +48,7 @@ namespace DiplomaWork1
             services.AddControllersWithViews();
 
             services.AddServices();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +76,8 @@ namespace DiplomaWork1
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ServiceHub>("/servicehub");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{Id?}");

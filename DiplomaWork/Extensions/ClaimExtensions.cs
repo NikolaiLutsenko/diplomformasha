@@ -1,8 +1,8 @@
-﻿using DiplomaWork1.Models.Constants;
+﻿using DiplomaWork.Models.Constants;
 using System;
 using System.Security.Claims;
 
-namespace DiplomaWork1.Extensions
+namespace DiplomaWork.Extensions
 {
     public static class ClaimExtensions
     {

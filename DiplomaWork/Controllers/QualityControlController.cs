@@ -1,13 +1,14 @@
-﻿using DiplomaWork1.Data;
-using DiplomaWork1.Models.Constants;
-using DiplomaWork1.Models.Requests;
+﻿using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Models.Constants;
+using DiplomaWork.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [Authorize(Roles = RoleConstants.QualityControl + "," + RoleConstants.Admin)]
     public class QualityControlController: BaseController
@@ -27,7 +28,7 @@ namespace DiplomaWork1.Controllers
                 .ThenInclude(service => service.Category)
                 .Include(x => x.States)
                 .Include(x => x.CurrentEmployee)
-                .Where(x => x.IsWaitingQualityControl)
+                .Where(x => x.StateType == RequestStateType.WaitingQualityControl)
                 .ToArrayAsync();
 
             return View(requests.Select(x => new RequestModel
@@ -38,7 +39,7 @@ namespace DiplomaWork1.Controllers
                 CreatedAt = x.CreatedDate,
                 UserEmail = x.UserEmail,
                 EmployeeEmail = x.CurrentEmployee?.Email,
-                Badget = new ShowBadgeModel(x.IsCompleted, x.IsReturned, x.IsWaitingQualityControl),
+                Badget = new ShowBadgeModel(x.StateType),
                 States = x.States
                     .OrderByDescending(x => x.CreatedDate)
                     .Select(s => new RequestStateModel

@@ -1,12 +1,12 @@
-﻿using DiplomaWork1.Data.Models;
-using DiplomaWork1.Models.Services;
+﻿using DiplomaWork.Data.Models;
+using DiplomaWork.Models.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models.Employees
+namespace DiplomaWork.Models.Employees
 {
     public class EditEmployeeModel
     {

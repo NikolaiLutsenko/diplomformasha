@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Models.Category;
-using DiplomaWork1.Models.Constants;
-using DiplomaWork1.Models.Employees;
-using DiplomaWork1.Models.Services;
+using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Models.Category;
+using DiplomaWork.Models.Constants;
+using DiplomaWork.Models.Employees;
+using DiplomaWork.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [Authorize(Roles = RoleConstants.Admin)]
     public class EmployeesController : Controller

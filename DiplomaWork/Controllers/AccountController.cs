@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DiplomaWork1.Data;
-using DiplomaWork1.Models;
-using DiplomaWork1.Models.Constants;
+using DiplomaWork.Data;
+using DiplomaWork.Models;
+using DiplomaWork.Models.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly DiplomaWorkContext _db;
         private readonly UserManager<User> _userManager;
 
-        public AccountController(DiplomaWorkContext db, UserManager<User> userManager)
+        public AccountController(UserManager<User> userManager)
         {
-            _db = db;
             _userManager = userManager;
         }
 

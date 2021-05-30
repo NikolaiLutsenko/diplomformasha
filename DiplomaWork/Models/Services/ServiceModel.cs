@@ -1,11 +1,11 @@
-﻿using DiplomaWork1.Models.Category;
+﻿using DiplomaWork.Models.Category;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models.Services
+namespace DiplomaWork.Models.Services
 {
     public class ServiceModel
     {

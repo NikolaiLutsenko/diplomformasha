@@ -1,4 +1,4 @@
-﻿namespace DiplomaWork1.Models.Requests
+﻿namespace DiplomaWork.Models.Requests
 {
     public class MyRequestsModel
     {

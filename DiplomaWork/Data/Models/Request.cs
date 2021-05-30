@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DiplomaWork1.Data.Models
+namespace DiplomaWork.Data.Models
 {
     public class Request
     {
@@ -25,11 +25,7 @@ namespace DiplomaWork1.Data.Models
 
         public DateTime CreatedDate { get; set; }
 
-        public bool IsCompleted { get; set; }
-
-        public bool IsReturned { get; set; }
-
-        public bool IsWaitingQualityControl { get; set; }
+        public RequestStateType StateType { get; set; }
 
         public IEnumerable<RequestState> States { get; set; }
     }

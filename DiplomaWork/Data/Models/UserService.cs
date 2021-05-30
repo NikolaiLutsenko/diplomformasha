@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiplomaWork1.Data.Models
+namespace DiplomaWork.Data.Models
 {
     public class UserService
     {

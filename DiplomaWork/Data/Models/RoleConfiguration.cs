@@ -1,8 +1,8 @@
-﻿using DiplomaWork1.Models.Constants;
+﻿using DiplomaWork.Models.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DiplomaWork1.Data.Models
+namespace DiplomaWork.Data.Models
 {
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {

@@ -1,7 +1,9 @@
-﻿using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Interfaces;
-using DiplomaWork1.Models.Requests;
+﻿using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Interfaces;
+using DiplomaWork.Models.Requests;
+using DiplomaWork.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,15 +11,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DiplomaWork1.Services
+namespace DiplomaWork.Services
 {
     public class RequestService : IRequestService
     {
         private readonly DiplomaWorkContext _db;
+        private readonly IRequestNotifier _requestNotifier;
 
-        public RequestService(DiplomaWorkContext db)
+        public RequestService(DiplomaWorkContext db, IRequestNotifier requestNotifier)
         {
             _db = db;
+            _requestNotifier = requestNotifier;
         }
 
         public async Task<IEnumerable<RequestModel>> GetRequestsAsync(Guid? employeeId = null, RequestsFlag flags = RequestsFlag.None)
@@ -43,6 +47,39 @@ namespace DiplomaWork1.Services
                 .Select(ToRequestModel);
         }
 
+        public async Task SetStateAsync(SetStateModel model, Guid employeeId)
+        {
+            var request = await _db.Requests.FindAsync(model.RequestId);
+
+            request.StateType = ToRequestStateType(model);
+
+            _db.RequestStates.Add(new RequestState
+            {
+                Id = Guid.NewGuid(),
+                CreatedDate = DateTime.UtcNow,
+                Description = model.Description,
+                State = model.State,
+                RequestId = model.RequestId,
+                UserId = employeeId
+            });
+
+            await _db.SaveChangesAsync();
+
+            await _requestNotifier.NotifyAsync(request.Id, request.StateType);
+
+            static RequestStateType ToRequestStateType(SetStateModel model)
+            {
+                if (model.IsCompleted)
+                    return RequestStateType.Completed;
+                else if (model.ToQualityControl)
+                    return RequestStateType.WaitingQualityControl;
+                else if (model.ToTechnicalSpecialist)
+                    return RequestStateType.Returned;
+                else
+                    return RequestStateType.InProgress;
+            }
+        }
+
         private static RequestModel ToRequestModel(Request request)
         {
             return new RequestModel
@@ -52,7 +89,7 @@ namespace DiplomaWork1.Services
                 CategoryName = request.Service.Category.Name,
                 CreatedAt = request.CreatedDate,
                 UserEmail = request.UserEmail,
-                Badget = new ShowBadgeModel(request.IsCompleted, request.IsReturned, request.IsWaitingQualityControl),
+                Badget = new ShowBadgeModel(request.StateType),
                 CurrentEmployeeId = request.CurrentEmployeeId,
                 States = request.States
                 .OrderByDescending(x => x.CreatedDate)
@@ -64,6 +101,42 @@ namespace DiplomaWork1.Services
                     EmployeeEmail = s.User.Email
                 })
             };
+        }
+
+        public async Task<bool> TryCreateRequestAsync(CreateRequesModel model)
+        {
+            var service = await _db.Services
+                    .Include(x => x.UserServices)
+                    .ThenInclude(x => x.User)
+                    .ThenInclude(x => x.Requests)
+                    .FirstOrDefaultAsync(x => x.Id == model.ServiceId);
+            if (service == null)
+                return false;
+            Guid? employeeId = null;
+            if (service.UserServices.Any(x => x.User != null))
+                employeeId = service
+                    .UserServices
+                    .OrderBy(x => x.User.Requests.Count())
+                    .First().UserId;
+            var request = new Request
+            {
+                Id = Guid.NewGuid(),
+                Description = model.Description,
+                UserEmail = model.UserEmail,
+                UserPhone = model.UserPhone,
+                UserName = model.UserName,
+                ServiceId = model.ServiceId,
+                CurrentEmployeeId = employeeId,
+                CreatedDate = DateTime.UtcNow,
+                StateType = RequestStateType.InProgress
+            };
+            _db.Requests.Add(request);
+
+            await _db.SaveChangesAsync();
+
+            await _requestNotifier.NotifyAsync(request.Id, request.StateType);
+
+            return true;
         }
 
         private class RequestExpresionBuilder
@@ -102,9 +175,9 @@ namespace DiplomaWork1.Services
             {
                 if (_flags.HasFlag(RequestsFlag.IsNotWaitingQualityControl))
                 {
-                    var isWaitingQualityControlMember = Expression.Property(pr, nameof(Request.IsWaitingQualityControl));
-                    var falseConstant = Expression.Constant(false);
-                    var expression = Expression.Equal(isWaitingQualityControlMember, falseConstant);
+                    var isWaitingQualityControlMember = Expression.Property(pr, nameof(Request.StateType));
+                    var waitingQualityControl = Expression.Constant(RequestStateType.WaitingQualityControl);
+                    var expression = Expression.NotEqual(isWaitingQualityControlMember, waitingQualityControl);
                     prevExpression = prevExpression == null ? expression : Expression.OrElse(prevExpression, expression);
                 }
 

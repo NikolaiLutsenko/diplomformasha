@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiplomaWork1.Data.Constants
+namespace DiplomaWork.Data.Constants
 {
     public static class DefaultCategories
     {

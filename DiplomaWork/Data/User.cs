@@ -1,9 +1,9 @@
-﻿using DiplomaWork1.Data.Models;
+﻿using DiplomaWork.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
-namespace DiplomaWork1.Data
+namespace DiplomaWork.Data
 {
     public class User: IdentityUser<Guid>
     {

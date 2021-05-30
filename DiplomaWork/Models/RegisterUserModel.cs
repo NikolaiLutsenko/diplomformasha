@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models
+namespace DiplomaWork.Models
 {
     public class RegisterUserModel
     {

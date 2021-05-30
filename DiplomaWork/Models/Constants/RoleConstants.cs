@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiplomaWork1.Models.Constants
+namespace DiplomaWork.Models.Constants
 {
     public class RoleConstants
     {

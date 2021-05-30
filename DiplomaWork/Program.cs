@@ -1,13 +1,13 @@
 using System;
-using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Services;
+using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace DiplomaWork1
+namespace DiplomaWork
 {
     public class Program
     {

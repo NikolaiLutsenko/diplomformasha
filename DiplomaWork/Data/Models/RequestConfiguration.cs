@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DiplomaWork1.Data.Models
+namespace DiplomaWork.Data.Models
 {
     public class RequestConfiguration : IEntityTypeConfiguration<Request>
     {
@@ -27,11 +27,7 @@ namespace DiplomaWork1.Data.Models
 
             builder.Property(x => x.CreatedDate);
 
-            builder.Property(x => x.IsCompleted).IsRequired();
-
-            builder.Property(x => x.IsReturned).IsRequired();
-
-            builder.Property(x => x.IsWaitingQualityControl).IsRequired();
+            builder.Property(x => x.StateType).IsRequired();
 
             builder.HasOne(x => x.CurrentEmployee)
                 .WithMany(x => x.Requests)

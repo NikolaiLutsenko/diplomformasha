@@ -1,10 +1,10 @@
-﻿using DiplomaWork1.Data.Models;
+﻿using DiplomaWork.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace DiplomaWork1.Data
+namespace DiplomaWork.Data
 {
     public class DiplomaWorkContext : IdentityDbContext<User, Role, Guid>
     {
@@ -21,7 +21,7 @@ namespace DiplomaWork1.Data
         public DiplomaWorkContext(DbContextOptions<DiplomaWorkContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

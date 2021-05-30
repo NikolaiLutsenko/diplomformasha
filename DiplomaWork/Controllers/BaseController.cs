@@ -1,9 +1,9 @@
-﻿using DiplomaWork1.Extensions;
-using DiplomaWork1.Models.Constants;
+﻿using DiplomaWork.Extensions;
+using DiplomaWork.Models.Constants;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     public abstract class BaseController: Controller
     {

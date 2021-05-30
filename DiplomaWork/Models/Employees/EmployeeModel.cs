@@ -1,5 +1,5 @@
-﻿using DiplomaWork1.Data.Models;
-using DiplomaWork1.Models.Services;
+﻿using DiplomaWork.Data.Models;
+using DiplomaWork.Models.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiplomaWork1.Models.Employees
+namespace DiplomaWork.Models.Employees
 {
     public class EmployeeModel
     {

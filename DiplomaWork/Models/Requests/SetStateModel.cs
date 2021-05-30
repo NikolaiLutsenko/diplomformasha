@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models.Requests
+namespace DiplomaWork.Models.Requests
 {
     public class SetStateModel
     {

@@ -1,5 +1,5 @@
-﻿@using DiplomaWork1.Models.Constants
-@using DiplomaWork1.Models.Requests
+﻿@using DiplomaWork.Models.Constants
+@using DiplomaWork.Models.Requests
 @model MyRequestsModel
 
 @{
@@ -9,13 +9,19 @@
 <h1>Заявки</h1>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Заявки <span class="badge badge-info">@Model.WorkInProgressRequests.Count()</span></a>
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+            Заявки <span class="badge badge-info">@Model.WorkInProgressRequests.Count()</span>
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="notassigned-requests-tab" data-toggle="tab" href="#notassigned-requests" role="tab" aria-controls="notassigned" aria-selected="false">Заявки без исполнителя <span class="badge badge-warning">@Model.NotAssignedRequests.Count()</span></a>
+        <a class="nav-link" id="notassigned-requests-tab" data-toggle="tab" href="#notassigned-requests" role="tab" aria-controls="notassigned" aria-selected="false">
+            Заявки без исполнителя <span class="badge badge-warning">@Model.NotAssignedRequests.Count()</span>
+        </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="completed-requests-tab" data-toggle="tab" href="#completed-requests" role="tab" aria-controls="completed" aria-selected="false">Завершенные заявки <span class="badge badge-success">@Model.CompletedRequests.Count()</span></a>
+        <a class="nav-link" id="completed-requests-tab" data-toggle="tab" href="#completed-requests" role="tab" aria-controls="completed" aria-selected="false">
+            Завершенные заявки <span class="badge badge-success">@Model.CompletedRequests.Count()</span>
+        </a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">

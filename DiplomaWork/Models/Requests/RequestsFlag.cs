@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiplomaWork1.Models.Requests
+namespace DiplomaWork.Models.Requests
 {
     [Flags]
     public enum RequestsFlag

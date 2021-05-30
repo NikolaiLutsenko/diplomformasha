@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [AllowAnonymous]
     public class ErrorController : Controller

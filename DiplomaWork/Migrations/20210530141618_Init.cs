@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DiplomaWork1.Migrations
+namespace DiplomaWork.Migrations
 {
     public partial class Init : Migration
     {
@@ -196,9 +196,7 @@ namespace DiplomaWork1.Migrations
                     Description = table.Column<string>(nullable: true),
                     CurrentEmployeeId = table.Column<Guid>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    IsCompleted = table.Column<bool>(nullable: false),
-                    IsReturned = table.Column<bool>(nullable: false),
-                    IsWaitingQualityControl = table.Column<bool>(nullable: false)
+                    StateType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

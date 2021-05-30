@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models.Roles
+namespace DiplomaWork.Models.Roles
 {
     public class EditEmployeeRolesModel
     {

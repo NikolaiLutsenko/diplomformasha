@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Models.Category;
-using DiplomaWork1.Models.Constants;
+using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Models.Category;
+using DiplomaWork.Models.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [Authorize(Roles = RoleConstants.Admin)]
     public class CategoryController : Controller

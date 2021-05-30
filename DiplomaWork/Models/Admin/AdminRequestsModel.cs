@@ -1,6 +1,6 @@
-﻿using DiplomaWork1.Models.Requests;
+﻿using DiplomaWork.Models.Requests;
 
-namespace DiplomaWork1.Models.Admin
+namespace DiplomaWork.Models.Admin
 {
     public class AdminRequestsModel
     {

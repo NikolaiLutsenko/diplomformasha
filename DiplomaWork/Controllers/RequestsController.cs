@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DiplomaWork1.Data;
-using DiplomaWork1.Data.Models;
-using DiplomaWork1.Extensions;
-using DiplomaWork1.Interfaces;
-using DiplomaWork1.Models.Category;
-using DiplomaWork1.Models.Constants;
-using DiplomaWork1.Models.Requests;
-using DiplomaWork1.Models.Services;
+using DiplomaWork.Data;
+using DiplomaWork.Data.Models;
+using DiplomaWork.Extensions;
+using DiplomaWork.Interfaces;
+using DiplomaWork.Models.Category;
+using DiplomaWork.Models.Constants;
+using DiplomaWork.Models.Requests;
+using DiplomaWork.Models.Services;
+using DiplomaWork.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiplomaWork1.Controllers
+namespace DiplomaWork.Controllers
 {
     [AllowAnonymous]
     public class RequestsController : BaseController
@@ -93,7 +95,7 @@ namespace DiplomaWork1.Controllers
                 UserEmail = request.UserEmail,
                 UserName = request.UserName,
                 UserPhone = request.UserPhone,
-                Badget = new ShowBadgeModel(request.IsCompleted, request.IsReturned, request.IsWaitingQualityControl),
+                Badget = new ShowBadgeModel(request.StateType),
                 CanAssignToCurrentEmployee = IsCurrentUserTechnicalSpecialist() && userServiceIds.Contains(request.ServiceId) && request.CurrentEmployeeId != User.GetEmployeeId(),
                 States = request.States
                     .OrderByDescending(x => x.CreatedDate)
@@ -180,7 +182,7 @@ namespace DiplomaWork1.Controllers
             return View(new SetStateModel
             {
                 RequestId = id,
-                IsOnQuolityControl = request.IsWaitingQualityControl
+                IsOnQuolityControl = request.StateType == RequestStateType.WaitingQualityControl
             });
         }
 
@@ -194,7 +196,7 @@ namespace DiplomaWork1.Controllers
                 return View(model);
             }
 
-            var request = await _db.Requests.FirstOrDefaultAsync(x => x.Id == model.RequestId);
+            var request = await _db.Requests.FindAsync(model.RequestId);
             if (request == null)
             {
                 ModelState.AddModelError(string.Empty, "Заявка не найдена");
@@ -207,36 +209,7 @@ namespace DiplomaWork1.Controllers
                 return View(model);
             }
 
-            if (model.IsCompleted)
-            {
-                request.IsCompleted = true;
-                request.IsReturned = false;
-                request.IsWaitingQualityControl = false;
-            }
-            else if (model.ToTechnicalSpecialist)
-            {
-                request.IsReturned = true;
-                request.IsCompleted = false;
-                request.IsWaitingQualityControl = false;
-            }
-            else if (model.ToQualityControl)
-            {
-                request.IsWaitingQualityControl = true;
-                request.IsCompleted = false;
-                request.IsReturned = false;
-            }
-
-            _db.RequestStates.Add(new RequestState
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                Description = model.Description,
-                State = model.State,
-                RequestId = model.RequestId,
-                UserId = User.GetEmployeeId()
-            });
-
-            await _db.SaveChangesAsync();
+            await _requestService.SetStateAsync(model, User.GetEmployeeId());
 
             return RedirectToAction(nameof(Details), new { id = model.RequestId });
         }
@@ -261,33 +234,8 @@ namespace DiplomaWork1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var service = await _db.Services
-                    .Include(x => x.UserServices)
-                    .ThenInclude(x => x.User)
-                    .ThenInclude(x => x.Requests)
-                    .FirstOrDefaultAsync(x => x.Id == requesModel.ServiceId);
-                if (service == null)
-                    return RedirectToAction(nameof(Create));
-                Guid? employeeId = null;
-                if (service.UserServices.Any(x => x.User != null))
-                    employeeId = service
-                        .UserServices
-                        .OrderBy(x => x.User.Requests.Count())
-                        .First().UserId;
-
-                _db.Requests.Add(new Request
-                {
-                    Id = Guid.NewGuid(),
-                    Description = requesModel.Description,
-                    UserEmail = requesModel.UserEmail,
-                    UserPhone = requesModel.UserPhone,
-                    UserName = requesModel.UserName,
-                    ServiceId = requesModel.ServiceId,
-                    CurrentEmployeeId = employeeId,
-                    CreatedDate = DateTime.UtcNow
-                });
-
-                await _db.SaveChangesAsync();
+                if (!await _requestService.TryCreateRequestAsync(requesModel))
+                    return RedirectToAction(nameof(Create), requesModel);
                 return RedirectToAction("Index", "Home", new { message = "Заявка создана" });
             }
             else

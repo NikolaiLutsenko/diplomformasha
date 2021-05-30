@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models.Category
+namespace DiplomaWork.Models.Category
 {
     public class CreateModel
     {

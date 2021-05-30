@@ -1,10 +1,10 @@
-﻿using DiplomaWork1.Models.Category;
+﻿using DiplomaWork.Models.Category;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiplomaWork1.Models.Requests
+namespace DiplomaWork.Models.Requests
 {
     public class CreateRequesModel
     {
