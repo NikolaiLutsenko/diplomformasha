@@ -29,7 +29,7 @@ namespace DiplomaWork.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromServices] RoleManager<Role> roleManager)
+        public async Task<IActionResult> Index()
         {
             var users = _userManager.Users
                 .Include(x => x.UserServices)
@@ -101,6 +101,38 @@ namespace DiplomaWork.Controllers
             var servicesToAdd = employeeModel.UserServiceIds.Except(user.UserServices.Select(x => x.ServiceId).ToList());
             _db.UserServices.AddRange(servicesToAdd.Select(x => new UserService { UserId = user.Id, ServiceId = x }));
             await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromForm] Guid id)
+        {
+            var userToDelete = await _userManager.FindByIdAsync(id.ToString());
+            if (userToDelete != null)
+            {
+                var userServices = await _db.UserServices.Where(x => x.UserId == id).ToArrayAsync();
+                _db.UserServices.RemoveRange(userServices);
+
+                var roles = await _userManager.GetRolesAsync(userToDelete);
+                if (roles.Count > 0)
+                {
+                    await _userManager.RemoveFromRolesAsync(userToDelete, roles);
+                }
+
+                var requests = await _db.Requests.Where(x => x.CurrentEmployeeId == id).ToArrayAsync();
+                if (requests.Count() > 0)
+                {
+                    foreach (var request in requests)
+                    {
+                        request.CurrentEmployeeId = null;
+                    }
+                }
+
+                await _db.SaveChangesAsync();
+
+                await _userManager.DeleteAsync(userToDelete);
+            }
 
             return RedirectToAction(nameof(Index));
         }
