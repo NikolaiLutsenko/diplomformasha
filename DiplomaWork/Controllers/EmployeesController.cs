@@ -32,6 +32,7 @@ namespace DiplomaWork.Controllers
         public async Task<IActionResult> Index()
         {
             var users = _userManager.Users
+                .Include(x => x.Requests)
                 .Include(x => x.UserServices)
                 .ThenInclude(x => x.Service)
                 .ThenInclude(x => x.Category).ToList();
@@ -55,7 +56,8 @@ namespace DiplomaWork.Controllers
                             Name = us.Service.Category.Name
                         }
                     }),
-                    Roles = roles
+                    Roles = roles,
+                    CountOfRequests = user.Requests.Count()
                 });
             }
 
