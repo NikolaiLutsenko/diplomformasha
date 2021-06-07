@@ -171,7 +171,7 @@ namespace DiplomaWork.Controllers
                 return RedirectToNotFound("Заявка не найдена");
             }
 
-            if (request.CurrentEmployeeId != User.GetEmployeeId())
+            if (!User.IsInRole(RoleConstants.QualityControl) && request.CurrentEmployeeId != User.GetEmployeeId())
             {
                 return RedirectToNotAllowed("Вы не можете устанавливать статусы");
             }
@@ -200,7 +200,7 @@ namespace DiplomaWork.Controllers
                 return View(model);
             }
 
-            if (request.CurrentEmployeeId != User.GetEmployeeId())
+            if (!User.IsInRole(RoleConstants.QualityControl) && request.CurrentEmployeeId != User.GetEmployeeId())
             {
                 ModelState.AddModelError(string.Empty, "Вы не можете устанавливать статусы");
                 return View(model);
