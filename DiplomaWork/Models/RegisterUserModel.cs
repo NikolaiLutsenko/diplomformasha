@@ -5,7 +5,7 @@ namespace DiplomaWork.Models
     public class RegisterUserModel
     {
         [Required(ErrorMessage = "Поле Email обязательно")]
-        [Display(Name = "Email")]
+        [Display(Name = "Логин")]
         [EmailAddress]
         public string Email { get; set; }
 

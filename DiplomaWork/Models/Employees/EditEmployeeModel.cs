@@ -18,7 +18,7 @@ namespace DiplomaWork.Models.Employees
         [Display(Name = "Почта")]
         public string Email { get; set; }
 
-        [Display(Name = "ФИО")]
+        [Display(Name = "Имя")]
         [Required]
         public string UserName { get; set; }
 

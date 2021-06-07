@@ -5,7 +5,7 @@ namespace DiplomaWork.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Логин")]
         [EmailAddress]
         public string Email { get; set; }
 

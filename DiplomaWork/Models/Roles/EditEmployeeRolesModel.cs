@@ -6,7 +6,7 @@ namespace DiplomaWork.Models.Roles
 {
     public class EditEmployeeRolesModel
     {
-        [Display(Name = "ФИО")]
+        [Display(Name = "Имя")]
         public string UserName { get; set; }
 
         [HiddenInput(DisplayValue = false)]
