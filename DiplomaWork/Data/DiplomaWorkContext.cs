@@ -21,7 +21,8 @@ namespace DiplomaWork.Data
         public DiplomaWorkContext(DbContextOptions<DiplomaWorkContext> options)
             : base(options)
         {
-            Database.Migrate();
+            Database.EnsureCreated();
+            //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
