@@ -27,9 +27,13 @@ namespace DiplomaWork
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionStr = Configuration.GetConnectionString("Default");
+            var useInMemoryDb = Configuration.GetValue<bool>("UseInMemoryDb");
             services.AddDbContext<DiplomaWorkContext>(dbBuilder =>
             {
-                dbBuilder.UseMySql(connectionStr, options => options.ServerVersion(new Version(8, 0), ServerType.MySql));
+                if (useInMemoryDb)
+                    dbBuilder.UseInMemoryDatabase($"DiplomaDB");
+                else
+                    dbBuilder.UseMySql(connectionStr, options => options.ServerVersion(new Version(8, 0), ServerType.MySql));
             });
             services.AddIdentity<User, Role>(opts => {
                 opts.Password.RequiredLength = 5;   // минимальная длина
